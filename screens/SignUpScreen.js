@@ -1,15 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {Input, Button } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 const SignUpScreen = props => {
     
     const signUpButtonHandler = () => {
-        props.navigation.replace({
-            routeName: 'DashboardScreen',
-            params: {
-                title: 'Hello from sign up'
-            }
-        })
+        props.navigation.reset([NavigationActions.navigate({ routeName: 'MainTabNavigator' })], 0);
     }
     return (
         <ScrollView >

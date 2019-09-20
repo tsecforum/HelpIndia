@@ -9,7 +9,7 @@ const LoginScreen = props => {
 
   const loginButtonHandler = () => {
     props.navigation.replace({
-      routeName: 'DashboardScreen',
+      routeName: 'MainTabNavigator',
       params: {
         title: 'Helo from login '
       }
