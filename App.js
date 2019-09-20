@@ -1,7 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import MainNavigator from "./navigations/MainNavigator";
+
+import DonationScreen from "./screens/DonationsScreen";
 export default function App() {
+  // return <DonationScreen />;
   return <MainNavigator />;
 }
 

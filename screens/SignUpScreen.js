@@ -5,7 +5,11 @@ import { NavigationActions } from 'react-navigation';
 const SignUpScreen = props => {
     
     const signUpButtonHandler = () => {
-        props.navigation.reset([NavigationActions.navigate({ routeName: 'MainTabNavigator' })], 0);
+        props.navigation.reset([NavigationActions.navigate({ routeName: 'MainTabNavigator' }, {
+            params: {
+                title: 'Hello from Sign up'
+            }
+        })], 0);
     }
     return (
         <ScrollView >
