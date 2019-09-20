@@ -7,9 +7,11 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 
 const MainNavigator = createSwitchNavigator({
-    
+    LoginNavigator: LoginNavigator,  
     DashboardNavigator: DashboardNavigator,
-    LoginNavigator: LoginNavigator,   
+    
+   
+    
 })
 
 export default createAppContainer(MainNavigator);

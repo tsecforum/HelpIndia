@@ -26,19 +26,19 @@ const NGOCard = props => {
         <TouchableOpacity onPress={props.onSelect} useForeground>
           <View>
             <View style={styles.imageContainer}>
-              <Image style={styles.image} source={{ uri: photo }} />
+              <Image style={styles.image} source={{ uri: props.photo }} />
             </View>
             <View style={styles.details}>
               <View style={styles.categoryContainer}>
                 <View style={styles.greyTextContainer}>
-                <Text style={styles.greyText}>{category}</Text>
+                <Text style={styles.greyText}>{props.category}</Text>
                 </View>
                 <View>
-                <Text style={styles.greyText}>{location}</Text>
+                <Text style={styles.greyText}>{props.location}</Text>
                 </View>
               </View>
               <Text numberOfLines={1} style={styles.title}>{props.title}</Text>
-              <Text style={styles.price}>{org}</Text>
+              <Text style={styles.price}>{props.org}</Text>
             </View>
              
             <View style={styles.actions}>{props.children}</View>

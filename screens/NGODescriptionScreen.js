@@ -9,7 +9,7 @@ const NGODescriptionScreen = props => {
   const description = navigation.getParam("description");
   const photo = navigation.getParam("photo");
   const location = navigation.getParam("location");
-
+  console.log("Hello", title);
   return (
     <ScrollView>
       <Image style={styles.image} source={{ uri: photo }} />
@@ -21,6 +21,7 @@ const NGODescriptionScreen = props => {
             dispatch(cartActions.addToCart(selectedProduct));
           }}
         />
+        
       </View>
       <View style={styles.details}>
         <Text style={styles.title}>{title}</Text>
@@ -33,6 +34,16 @@ const NGODescriptionScreen = props => {
         <Text style={styles.category}>Cause: {category}</Text>
         <Text style={styles.location}>Location: {location}</Text>
       </View>
+      <View style={styles.volunteerBtnContainer}>
+      <Button
+          containerStyle={{marginLeft: 0 }}
+          title="Join as Volunteer"
+          type="outline"
+          onPress={() => {
+            
+          }}
+        />
+        </View>
     </ScrollView>
   );
 };
@@ -99,6 +110,10 @@ const styles = StyleSheet.create({
   orgContainer: {
     flex: 1,
     textAlign: "left"
+  },
+  volunteerBtnContainer: {
+    alignItems: 'center',
+    marginVertical: 10
   }
 });
 export default NGODescriptionScreen;

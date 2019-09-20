@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, AsyncStorage } from "react-native";
 // import MainNavigator from "./navigations/MainNavigator";
 import MainTabNavigator from './navigations/DashboardNavigator';
 import LoginNavigator from './navigations/LoginNavigator';

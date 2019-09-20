@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  TouchableOpacityComponent
+  TouchableOpacityComponent,
+  AsyncStorage
 } from "react-native";
 import { Button } from "react-native-elements";
 // import Input from "../components/Input";
@@ -17,15 +18,33 @@ import axios from "axios";
 const LoginScreen = props => {
   const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [clicked, setclicked] = useState(false)
   // const { navigation } = props;
   // console.log(navigation.getParams('title'));
+
+  storeData = async () => {
+    try {
+      await AsyncStorage.setItem('username', userName);
+      props.navigation.navigate('DashboardNavigator');
+    } catch (error) {
+      // Error saving data
+    }
+  };
   if (isLoggedIn) {
-    props.navigation.navigate('DashboardNavigator');
+   console.log("INSIDE LOGGED IN")
+   storeData();
   }
+  const loader = 'loading';
+  if(!clicked){loading = null}
+
+
+  // Local Storage code
+  
 
   const loginButtonHandler = () => {
+
+     
     // props.navigation.replace({
     //   routeName: 'DashboardNavigator',
     //   params: {
@@ -48,6 +67,7 @@ const LoginScreen = props => {
     //   .catch(function(error) {
     //     console.log(error);
     //   });
+    setclicked(true)
     console.log(userName);
     console.log(password);
 
@@ -55,14 +75,15 @@ const LoginScreen = props => {
 
     formData.append("username", userName);
     formData.append("password", password);
+    const loginUrl = "http://serene-brushlands-85477.herokuapp.com/login";
+    // const finalUrl = loginUrl + "?username=" + "test" + "&password=" + "test@123";
     if (!isLoggedIn) {
-      fetch("http://serene-brushlands-85477.herokuapp.com/login", {
-        method: "POST",
-        body: formData
-      })
+      fetch(loginUrl)
         .then(function(response) {
-          if (response.status === 200) {
-            // setIsLoggedIn(true);
+          console.log(response);
+          console.log("STTATUS", response.status)
+          if(response.status === 200){
+            setIsLoggedIn(true);
           }
         })
         .catch(err => {console.log(err)});
@@ -87,6 +108,7 @@ const LoginScreen = props => {
           title="Login"
           containerStyle={styles.input}
           onPress={loginButtonHandler}
+          loading={clicked==true ? true: false}
         />
       </View>
       <TouchableOpacity
