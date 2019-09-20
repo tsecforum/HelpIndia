@@ -3,18 +3,25 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, TouchableOpacityCo
 import { Button } from "react-native-elements";
 // import Input from "../components/Input";
 import { Input } from "react-native-elements";
+import { NavigationActions } from 'react-navigation';
 const LoginScreen = props => {
   const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
 
+  // const { navigation } = props;
+  // console.log(navigation.getParams('title'));
   const loginButtonHandler = () => {
-    props.navigation.replace({
-      routeName: 'MainTabNavigator',
-      params: {
-        title: 'Helo from login '
-      }
-    })
+    // props.navigation.replace({
+    //   routeName: 'DashboardNavigator',
+    //   params: {
+    //     title: 'Helo from login '
+    //   }
+    // })
+  //   props.navigation.reset([NavigationActions.navigate({ routeName: 'DashboardNavigator' }, {
+  // })], 0);
+  props.navigation.navigate('DashboardNavigator');
   }
+
   return (
     <View style={styles.screen}>
       <Input

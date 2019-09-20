@@ -1,11 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import { StyleSheet, Text, View } from "react-native";
-import MainNavigator from "./navigations/MainNavigator";
-
+// import MainNavigator from "./navigations/MainNavigator";
+import MainTabNavigator from './navigations/DashboardNavigator';
+import LoginNavigator from './navigations/LoginNavigator';
 import DonationScreen from "./screens/DonationsScreen";
+import MainNavigator from './navigations/MainNavigator';
 export default function App() {
-  // return <DonationScreen />;
-  return <MainNavigator />;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  return <MainNavigator />
 }
 
 const styles = StyleSheet.create({
