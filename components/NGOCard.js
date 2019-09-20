@@ -37,7 +37,7 @@ const NGOCard = props => {
                 <Text style={styles.greyText}>{location}</Text>
                 </View>
               </View>
-              <Text numberOfLines={1} style={styles.title}>{title}</Text>
+              <Text numberOfLines={1} style={styles.title}>{props.title}</Text>
               <Text style={styles.price}>{org}</Text>
             </View>
              
