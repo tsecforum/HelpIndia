@@ -24,8 +24,10 @@ const DashboardScreen = props => {
   retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('username');
+      console.log("BVALUE FROM SIGN UOP", value);
       if (value !== null) {
         // We have data!!
+        console.log("BVALUE FROM SIGN UOP", value);
         setUserName(value);
       }
     } catch (error) {
