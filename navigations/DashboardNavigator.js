@@ -16,10 +16,12 @@ import NGODescriptionScreen from "../screens/NGODescriptionScreen";
 import DashboardScreen from "../screens/DashboardScreen";
 import DonationScreen from "../screens/DonationsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import NGOScreen from '../screens/NGOScreen';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 const HomeStack = createStackNavigator({
   DashboardScreen: DashboardScreen,
-  NGODescriptionScreen: NGODescriptionScreen
+  NGODescriptionScreen: NGODescriptionScreen,
+  NGOScreen: NGOScreen
 });
 
 const DonationStack = createStackNavigator({

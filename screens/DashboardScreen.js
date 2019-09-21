@@ -19,8 +19,8 @@ const DashboardScreen = props => {
   const [dataLoaded, setDataLoaded] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   
-  // const [userName, setUserName] = useState(null);
-  const [userName, setUserName] = useState('test');
+  const [userName, setUserName] = useState(null);
+  // const [userName, setUserName] = useState('test');
   retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('username');
@@ -72,7 +72,7 @@ const DashboardScreen = props => {
   //     const description =
   //       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic molestias iste quidem nam aspernatur nesciunt optio illo libero earum cumque, cum ad assumenda esse laudantium dignissimos id natus blanditiis. Voluptate explicabo voluptatum accusamus aut perferendis alias harum in, repellendus cupiditate. Hic aperiam explicabo tempore neque in voluptatem nam minima odit. Sit ipsum excepturi harum, incidunt ipsam quasi quod sint quidem.";
 
-  const NGOButtonHandler = (title, description, location, category, actual_url, org, id) => {
+  const NGOButtonHandler = (title, description, location, category, actual_url, org, id, phoneNumber) => {
     // console.log("HELLOO", title);
     navigation.navigate({
       routeName: "NGODescriptionScreen",
@@ -84,7 +84,8 @@ const DashboardScreen = props => {
         photo: actual_url,
         org: org,
         category: category,
-        username: userName
+        username: userName,
+        phoneNumber: phoneNumber
       }
     });
   };
@@ -105,13 +106,13 @@ const DashboardScreen = props => {
         data={dataLoaded}
         keyExtractor={item => item.id.toString()}
         renderItem={itemData => {
-            const {actual_url, category, ngo, title, location, description, photo_main, id } = itemData.item;
+            const {actual_url, category, ngo, title, location, description, photo_main, id} = itemData.item;
             // console.log(ngo.title);
             return (
-          <NGOCard location={location} category={category} photo={actual_url} org={ngo.title}  description={description} id={id}  title={title} onSelect={() => NGOButtonHandler(title, description, location, category, actual_url, ngo.title, id)}>
+          <NGOCard location={location} category={category} photo={actual_url} org={ngo.title}  description={description} id={id}  title={title} onSelect={() => NGOButtonHandler(title, description, location, category, actual_url, ngo.title, id, ngo.phone_number)}>
             <Button
               title="Donate"
-              onPress={() => NGOButtonHandler(title, description, location, category, actual_url, ngo.title, id)}
+              onPress={() => NGOButtonHandler(title, description, location, category, actual_url, ngo.title, id, ngo.phone_number)}
               containerStyle={{ width: "100%" }}
             />
           </NGOCard>

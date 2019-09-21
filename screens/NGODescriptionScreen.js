@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native";
 import { Button } from "react-native-elements";
 import axios from "axios";
 import { Overlay, Input } from "react-native-elements";
@@ -14,6 +14,7 @@ const NGODescriptionScreen = props => {
   const location = navigation.getParam("location");
   const id = navigation.getParam("id");
   const username = navigation.getParam("username");
+  const phoneNumber = navigation.getParam("phoneNumber");
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [amount, setAmount] = useState();
   const [donateIsClicked, setDonateIsClicked] = useState(false);
@@ -54,6 +55,12 @@ const NGODescriptionScreen = props => {
     setModalIsVisible(true);
   };
 
+  const orgButtonHandler = () => {
+    props.navigation.navigate({routeName: 'NGOScreen', params: {
+      event_id: id
+    }});
+  }
+
   const modalInputHandler = () => {
     console.log("AMOUNT", amount);
     setDonateIsClicked(true);
@@ -93,10 +100,13 @@ const NGODescriptionScreen = props => {
       </View>
       <View style={styles.extraContainer}>
         <View style={styles.orgContainer}>
+          <TouchableOpacity onPress={orgButtonHandler}>
           <Text style={styles.org}>Organisation: {org}</Text>
+          </TouchableOpacity>
         </View>
         <Text style={styles.category}>Cause: {category}</Text>
         <Text style={styles.location}>Location: {location}</Text>
+        <Text style={styles.location}>Contact: {phoneNumber}</Text>
       </View>
       <View style={styles.volunteerBtnContainer}>
         <Button
@@ -159,7 +169,9 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     color: "#888",
-    textAlign: "left"
+    textAlign: "left",
+    textDecorationLine: "underline"
+    
   },
   category: {
     fontSize: 16,
