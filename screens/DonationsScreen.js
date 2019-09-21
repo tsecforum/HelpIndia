@@ -5,7 +5,7 @@ import {
   StyleSheet,
   AsyncStorage,
   ActivityIndicator,
-  FlatList
+  FlatList,
 } from "react-native";
 import DonationsCard from "../components/DonationsCard";
 import axios from "axios";

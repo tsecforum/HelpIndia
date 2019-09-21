@@ -1,34 +1,23 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-  AsyncStorage
-} from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, ActivityIndicator, AsyncStorage } from "react-native";
 import { Button } from "react-native-elements";
 import NGOCard from "../components/NGOCard";
 import NGO from "../api";
 import axios from "axios";
 import { FlatList } from "react-native-gesture-handler";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import HeaderButton from '../components/HeaderButton';
-// const IMAGE_URL = ""
 
-// renderItemHan = (itemData) => {
-//     const { fields } = itemData.item;
-//     return(
 
-//       //   console.log("ITEM DATAAAA", fields.location);
-
-// }
-const DashboardScreen = props => {
+const SearchResultScreen = props => {
   const { navigation } = props;
-  const [dataLoaded, setDataLoaded] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const keyword = navigation.getParam("keyword");
+  const baseUrl = "https://serene-brushlands-85477.herokuapp.com/ngo/search/?keywords=";
 
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [dataLoaded, setDataLoaded] = useState(null);
+  const [userLoaded, setUserLoaded] = useState(false);
   const [userName, setUserName] = useState(null);
-  // const [userName, setUserName] = useState('test');
+
+  console.log("USERNAME FROM SEARCH RESULTS", userName);
   retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem("username");
@@ -37,28 +26,29 @@ const DashboardScreen = props => {
         // We have data!!
         console.log("BVALUE FROM SIGN UOP", value);
         setUserName(value);
+        setUserLoaded(true);
       }
     } catch (error) {
       // Error retrieving data
       console.log(error);
     }
   };
-  if (isLoaded) {
+  if (isLoaded && !userLoaded) {
     retrieveData();
   }
   if (!isLoaded) {
+    const finalUrl =
+      "https://serene-brushlands-85477.herokuapp.com/ngo/search/?keywords=" +
+      keyword;
     axios
-      .get("http://serene-brushlands-85477.herokuapp.com/ngo/")
+      .get(finalUrl)
       .then(response => {
-        // console.log(response.data);
-        //   console.log(JSON.stringify(response.data));
-        // console.log(response.data)
-        setDataLoaded(response.data);
+        console.log(response.data);
         setIsLoaded(true);
+        setDataLoaded(response.data);
       })
-      .catch(err => console.log(err));
+      .catch(error => console.log(error));
   }
-
   if (!isLoaded) {
     return (
       <View style={styles.activityIndicatorContainer}>
@@ -66,21 +56,6 @@ const DashboardScreen = props => {
       </View>
     );
   }
-
-  //   fetch("http://serene-brushlands-85477.herokuapp.com/ngo/")
-  //     .then(response => response.json())
-  //     .then(response => console.log(response))
-  //     .catch((err) => console.log(err));
-
-  // //   DUMMY DATA
-  //     const location = "Karnataka";
-  //     const photo =
-  //       "https://cdn1.msw.usc.edu/content/77931a572e564428b64396052585b77d/social-worker-skills-hero.jpg";
-  //     const title = "Provide a nutritional care package to HIV";
-  //     const org = "Isha Education";
-  //     const category = "Children";
-  //     const description =
-  //       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic molestias iste quidem nam aspernatur nesciunt optio illo libero earum cumque, cum ad assumenda esse laudantium dignissimos id natus blanditiis. Voluptate explicabo voluptatum accusamus aut perferendis alias harum in, repellendus cupiditate. Hic aperiam explicabo tempore neque in voluptatem nam minima odit. Sit ipsum excepturi harum, incidunt ipsam quasi quod sint quidem.";
 
   const NGOButtonHandler = (
     title,
@@ -108,17 +83,6 @@ const DashboardScreen = props => {
       }
     });
   };
-
-  const selectItemHandler = (title, description) => {
-    navigation.navigate({
-      routeName: "DashboardNavigation",
-      params: {
-        title: title,
-        description: description
-      }
-    });
-  };
-
   return (
     <View style={styles.screen}>
       <FlatList
@@ -182,24 +146,11 @@ const DashboardScreen = props => {
   );
 };
 
-DashboardScreen.navigationOptions = navData => {
-  return {
-    headerTitle: "Home",
-    headerRight: (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Search"
-          iconName="md-search"
-          onPress={() => {
-              navData.navigation.navigate('SearchModal');
-          }}
-        />
-      </HeaderButtons>
-    ),
-    
-  };
-};
-
+SearchResultScreen.navigationOptions = navData => {
+    return {
+        headerTitle: 'Search results'
+    }
+}
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
@@ -212,5 +163,4 @@ const styles = StyleSheet.create({
     alignItems: "center"
   }
 });
-
-export default DashboardScreen;
+export default SearchResultScreen;

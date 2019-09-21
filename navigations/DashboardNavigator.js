@@ -17,11 +17,17 @@ import DashboardScreen from "../screens/DashboardScreen";
 import DonationScreen from "../screens/DonationsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import NGOScreen from '../screens/NGOScreen';
+import SearchModal from '../screens/SearchModal';
+import SearchResultScreen from '../screens/SearchResultScreen';
+
 import {createBottomTabNavigator} from 'react-navigation-tabs';
+
 const HomeStack = createStackNavigator({
   DashboardScreen: DashboardScreen,
   NGODescriptionScreen: NGODescriptionScreen,
-  NGOScreen: NGOScreen
+  NGOScreen: NGOScreen,
+  SearchModal: {screen:SearchModal, mode: 'modal'},
+  SearchResultScreen: SearchResultScreen
 });
 
 const DonationStack = createStackNavigator({
