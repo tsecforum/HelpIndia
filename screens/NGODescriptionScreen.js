@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import { Button } from "react-native-elements";
+import axios from "axios";
+import { Overlay, Input } from "react-native-elements";
+
 const NGODescriptionScreen = props => {
   const { navigation } = props;
   const title = navigation.getParam("title");
@@ -9,19 +12,80 @@ const NGODescriptionScreen = props => {
   const description = navigation.getParam("description");
   const photo = navigation.getParam("photo");
   const location = navigation.getParam("location");
+  const id = navigation.getParam("id");
+  const username = navigation.getParam("username");
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [amount, setAmount] = useState();
+  const [donateIsClicked, setDonateIsClicked] = useState(false);
+
+  const donationBaseURL =
+    "http://serene-brushlands-85477.herokuapp.com/ngo/donating?username=";
   console.log("Hello", title);
+  console.log("USERNAME", username);
+  console.log("EVENT ID", id);
+  const finalUrl =
+    "http://serene-brushlands-85477.herokuapp.com/ngo/volunteering?username=" +
+    username +
+    "&event_id=" +
+    id;
+
+  if (donateIsClicked) {
+    const finalDonationURL =
+      donationBaseURL + username + "&event_id=" + id + "&amount=" + amount;
+    console.log(finalDonationURL);
+    axios
+      .get(finalDonationURL)
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          setDonateIsClicked(false);
+          setModalIsVisible(false);
+        }
+      })
+      .catch(err => console.log(err));
+  }
+  joinButtonHandler = () => {
+    axios
+      .get(finalUrl)
+      .then(response => console.log(response))
+      .catch(err => console.log(err));
+  };
+  const donateButtonHandler = () => {
+    setModalIsVisible(true);
+  };
+
+  const modalInputHandler = () => {
+    console.log("AMOUNT", amount);
+    setDonateIsClicked(true);
+  };
   return (
     <ScrollView>
+      <Overlay
+        isVisible={modalIsVisible}
+        height="auto"
+        onBackdropPress={() => setModalIsVisible(false)}
+      >
+        <Input
+          keyboardType="number-pad"
+          placeholder="Amount (INR)"
+          onChangeText={value => setAmount(value)}
+          value={amount}
+        />
+        <Button
+          containerStyle={{ marginVertical: 10 }}
+          title="Donate"
+          loading={donateIsClicked}
+          onPress={modalInputHandler}
+        />
+      </Overlay>
+
       <Image style={styles.image} source={{ uri: photo }} />
       <View style={styles.actions}>
         <Button
           containerStyle={{ width: "100%", marginLeft: 0 }}
           title="DONATE NOW"
-          onPress={() => {
-            dispatch(cartActions.addToCart(selectedProduct));
-          }}
+          onPress={donateButtonHandler}
         />
-        
       </View>
       <View style={styles.details}>
         <Text style={styles.title}>{title}</Text>
@@ -35,15 +99,13 @@ const NGODescriptionScreen = props => {
         <Text style={styles.location}>Location: {location}</Text>
       </View>
       <View style={styles.volunteerBtnContainer}>
-      <Button
-          containerStyle={{marginLeft: 0 }}
+        <Button
+          containerStyle={{ marginLeft: 0 }}
           title="Join as Volunteer"
           type="outline"
-          onPress={() => {
-            
-          }}
+          onPress={joinButtonHandler}
         />
-        </View>
+      </View>
     </ScrollView>
   );
 };
@@ -112,7 +174,7 @@ const styles = StyleSheet.create({
     textAlign: "left"
   },
   volunteerBtnContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginVertical: 10
   }
 });

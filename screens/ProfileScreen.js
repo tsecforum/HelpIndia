@@ -9,6 +9,7 @@ import {
 import { Button } from "react-native-elements";
 import axios from "axios";
 import Card from "../components/Card";
+import { Linking } from 'react-native';
 const ProfileScreen = props => {
   //   const [dataLoaded, setDataLoaded] = useState({
   //     first_name: "Raj Bohra",
@@ -22,6 +23,10 @@ const ProfileScreen = props => {
   const [userName, setUserName] = useState(null);
   const [userNameLoaded, setUserNameLoaded] = useState(false);
 
+  const contactButtonHandler = () => {
+      Linking.openURL('tel:+123456789');
+
+  }
   retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem("username");
@@ -69,7 +74,7 @@ const ProfileScreen = props => {
   logoutButtonHandler = () => {
     props.navigation.navigate("LoginNavigator");
   };
-  
+
   const { first_name, username } = dataLoaded;
   console.log(dataLoaded);
   return (
@@ -79,7 +84,7 @@ const ProfileScreen = props => {
       <Text>{username}</Text>
       <Text>{dataLoaded["phone number"]}</Text>
       <Text>{dataLoaded["email id"]}</Text>
-      <Button containerStyle={styles.button} title="Contact Support" />
+      <Button containerStyle={styles.button} onPress={contactButtonHandler} title="Contact Support" />
       <Button
         containerStyle={styles.button}
         title="Logout"
